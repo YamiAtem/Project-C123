@@ -4,8 +4,8 @@ import ssl
 import PIL.ImageOps
 import cv2
 import numpy
+import pandas
 from PIL import Image
-from sklearn.datasets import fetch_openml
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -15,13 +15,14 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
     ssl._create_default_https_context = ssl._create_unverified_context
 
 print("Getting Data...")
-x, y = fetch_openml('mnist_784', version=1, return_X_y=True)
-classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-           'W', 'X', 'Y', 'Z']
+x = numpy.load('image.npz')['arr_0']
+y = pandas.read_csv("https://raw.githubusercontent.com/whitehatjr/Alphabet-detection/master/project%20123/labels.csv")["labels"]
+classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
+           "W", "X", "Y", "Z"]
 n_classes = len(classes)
 print("Done Getting Data!")
 
-print("\numpyreforming Train Test Split...")
+print("\nPreforming Train Test Split...")
 x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, train_size=7500, test_size=2500)
 print("Done Preforming Train Test Split!")
 
